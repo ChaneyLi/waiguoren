@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中文名生成器</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+    <h1>中文名字生成器</h1>
+    <div class="subtitle">Chinese Name Generator</div>
+    <div class="decorations">
+        <div class="star">✦</div>
+        <div class="rocket">➤</div>
+    </div>
+</div>
+        <div class="input-group">
+            <input type="text" id="englishName" placeholder="输入英文名（如elon musk）">
+            <button onclick="generateNames()">🎄 立即生成</button>
+        </div>
+        <div class="option-group">
+            <select id="generation">
+                <option value="90后">90后风格</option>
+                <option value="00后">00后风格</option>
+            </select>
+            <select id="gender">
+                <option value="中性">性别：中性</option>
+                <option value="男生">男生专用</option>
+                <option value="女生">女生专属</option>
+            </select>
+        </div>
+        <div id="result" class="results"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
