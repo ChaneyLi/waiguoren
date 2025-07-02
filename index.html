@@ -1,34 +1,39 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>中文名生成器</title>
+    <title>Chinese Name Generator</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
-    <h1>中文名字生成器</h1>
-    <div class="subtitle">Chinese Name Generator</div>
-    <div class="decorations">
-        <div class="star">✦</div>
-        <div class="rocket">➤</div>
-    </div>
-</div>
+            <h1>Chinese Name Generator</h1>
+            <div class="subtitle">中文名字生成器 ❤️</div>
+            <div class="decorations">
+                <div class="star">✦</div>
+                <div class="rocket">➤</div>
+            </div>
+        </div>
         <div class="input-group">
-            <input type="text" id="englishName" placeholder="输入英文名（如elon musk）">
-            <button onclick="generateNames()">🎄 立即生成</button>
+            <input type="text" id="englishName" placeholder="Enter English name (e.g., elon musk)">
+            <button onclick="generateNames()">🎄 Generate</button>
         </div>
         <div class="option-group">
-            <select id="generation">
-                <option value="90后">90后风格</option>
-                <option value="00后">00后风格</option>
+            <select id="style">
+                <option value="90s">90s Style</option>
+                <option value="00s">00s Style</option>
             </select>
             <select id="gender">
-                <option value="中性">性别：中性</option>
-                <option value="男生">男生专用</option>
-                <option value="女生">女生专属</option>
+                <option value="neutral">Gender: Neutral</option>
+                <option value="male">Gender: Male</option>
+                <option value="female">Gender: Female</option>
+            </select>
+            <select id="length">
+                <option value="any">Length: Any</option>
+                <option value="2">Length: 2 chars</option>
+                <option value="3">Length: 3 chars</option>
             </select>
         </div>
         <div id="result" class="results"></div>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>中文名生成器原型</title>
+    <style>
+        /* 原型主容器 */
+        .prototype {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #FFF9F0;
+            border: 2px dashed #C91F37;
+        }
+
+        /* 功能模块标注 */
+        .module {
+            margin: 20px 0;
+            padding: 15px;
+            border-left: 4px solid #C91F37;
+            background: #FFEDED;
+        }
+
+        /* 交互状态模拟 */
+        .input-sim {
+            padding: 12px;
+            border: 2px solid #C91F37;
+            border-radius: 25px;
+            width: 70%;
+            margin: 10px 0;
+        }
+
+        /* 加载动画原型 */
+        .loading-sim {
+            height: 50px;
+            width: 50px;
+            border: 3px solid #C91F37;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+            border-radius: 50%;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 结果卡片样式 */
+        .card-sim {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 2px 6px rgba(201,31,55,0.1);
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="prototype">
+        <!-- 标题模块 -->
+        <div class="module">
+            <h1 style="color: #C91F37">中文名字生成器</h1>
+            <p style="color: #666">Chinese Name Generator</p>
+        </div>
+
+        <!-- 输入区域 -->
+        <div class="module">
+            <div class="input-sim" data-placeholder="输入英文名"></div>
+            <button style="background: #C91F37; color: white; padding: 10px 20px; border: none; border-radius: 20px; margin-left: 10px;">
+                立即生成
+            </button>
+        </div>
+
+        <!-- 选项模块 -->
+        <div class="module">
+            <div style="display: flex; gap: 15px; margin: 10px 0;">
+                <div style="border: 1px solid #C91F37; padding: 5px 10px; border-radius: 15px;">
+                    90后风格
+                </div>
+                <div style="border: 1px solid #C91F37; padding: 5px 10px; border-radius: 15px;">
+                    性别：中性
+                </div>
+            </div>
+        </div>
+
+        <!-- 加载状态 -->
+        <div class="module">
+            <div class="loading-sim"></div>
+            <p style="color: #C91F37; margin-top: 10px;">正在生成中...</p>
+        </div>
+
+        <!-- 结果展示 -->
+        <div class="module">
+            <div class="card-sim">
+                <h3 style="color: #C91F37">马思克</h3>
+                <p>中文寓意：蕴含科技与未来感</p>
+                <p>English Meaning：Combination of 'think' and 'tech'</p>
+                <p style="color: #FF6B6B; font-size: 0.9em;">✨ 灵感来自钢铁侠的科技感</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

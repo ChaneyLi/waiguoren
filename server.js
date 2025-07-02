@@ -1,6 +1,9 @@
 require('dotenv').config();
 const http = require('http');
 const https = require('https');
+const fs = require('fs');
+const path = require('path');
+const { pinyin } = require('pinyin');
 
 const server = http.createServer(async (req, res) => {
     // 设置CORS
@@ -22,7 +25,7 @@ const server = http.createServer(async (req, res) => {
         
         req.on('end', async () => {
             try {
-                const { englishName } = JSON.parse(body);
+                const { englishName, style, gender, length } = JSON.parse(body);
                 
                 // 调用火山引擎API
                 const options = {
@@ -67,11 +70,13 @@ const server = http.createServer(async (req, res) => {
                 });
 
                 // 构造火山引擎请求体
-                const prompt = `请根据英文名${englishName}生成三个有趣的中文名，要求：
-1. 中文名需符合中国文化
-2. 每个名字需包含中英文寓意解释
-3. 加入幽默元素或网络流行梗
-4. 用JSON格式返回：{names: [{chinese: '', meaning_zh: '', meaning_en: '', meme_explanation: ''}]}`;
+                const prompt = `Please generate three interesting Chinese names based on the English name "${englishName}".
+Requirements:
+1. The Chinese name should align with Chinese culture.
+2. Each name needs a Chinese and English explanation of its meaning.
+3. Incorporate humor or internet memes.
+4. Filter by: Style - ${style}, Gender - ${gender}, Length - ${length === 'any' ? 'any' : length + ' characters'}.
+5. Return in JSON format: {names: [{chinese: '', meaning_zh: '', meaning_en: '', meme_explanation: ''}]}`;
 
                 apiReq.write(JSON.stringify({
                     model: "deepseek-r1-250120",
@@ -87,19 +92,64 @@ const server = http.createServer(async (req, res) => {
             }
         });
     } else {
-        res.writeHead(404);
-        res.end();
+        let filePath = path.join(__dirname, req.url === '/' ? 'index.html' : req.url);
+        let extname = path.extname(filePath);
+        let contentType = 'text/html';
+
+        switch (extname) {
+            case '.js':
+                contentType = 'text/javascript';
+                break;
+            case '.css':
+                contentType = 'text/css';
+                break;
+            case '.json':
+                contentType = 'application/json';
+                break;
+            case '.png':
+                contentType = 'image/png';
+                break;
+            case '.jpg':
+                contentType = 'image/jpeg';
+                break;
+        }
+
+        fs.readFile(filePath, (error, content) => {
+            if (error) {
+                if(error.code == 'ENOENT'){
+                    res.writeHead(404, { 'Content-Type': 'text/plain' });
+                    res.end('File not found');
+                }
+                else {
+                    res.writeHead(500);
+                    res.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
+                }
+            }
+            else {
+                res.writeHead(200, { 'Content-Type': contentType });
+                res.end(content, 'utf-8');
+            }
+        });
     }
 });
 
 // 解析AI返回的文本
+// 在 parseAIResponse 函数中添加拼音转换
 function parseAIResponse(response) {
     try {
-        // 尝试直接解析choices中的JSON内容
         const content = response.choices[0].message.content;
         const jsonStart = content.indexOf('{');
         const jsonEnd = content.lastIndexOf('}') + 1;
-        return JSON.parse(content.slice(jsonStart, jsonEnd)).names;
+        const names = JSON.parse(content.slice(jsonStart, jsonEnd)).names;
+        
+        // 为每个名字添加拼音
+        return names.map(name => ({
+            ...name,
+            pinyin: pinyin(name.chinese, {
+                style: pinyin.STYLE_TONE, // 带声调的拼音
+                segment: true // 分词
+            }).map(p => p.join(' ')).join(' ')
+        }));
     } catch (e) {
         console.error('解析AI响应失败:', e);
         return [];
